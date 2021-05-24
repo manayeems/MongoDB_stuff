@@ -1,0 +1,6 @@
+Python Setup in windows
+
+Download and Install Ananconda (https://www.anaconda.com/products/individual) 
+
+Install pymongo and flask-pymongo
+C:\>pip3 install pymongo jupyter flask-pymongo
