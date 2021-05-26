@@ -1,4 +1,4 @@
-// load('/usr/local/mongodb/arr.js')
+// load('arr.js')
 
 var arr = [
     {
