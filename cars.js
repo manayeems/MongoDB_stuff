@@ -1,4 +1,4 @@
-// load('/usr/local/mongodb/cars.js')
+// load('cars.js')
 // for demo prupose only, use BSON int as much as possible
 var cars = [
     {
