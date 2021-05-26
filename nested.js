@@ -1,4 +1,4 @@
-// load('/usr/local/mongodb/nested.js')
+// load('nested.js')
 
 var nested = [
     {
