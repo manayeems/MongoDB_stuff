@@ -1,5 +1,4 @@
 Download and Installl MongoDB Community server version   4.4
 (complete install using default paths)
-the
-add windows 10 environment variable in Path  variable -> Goto Control Panel\System and Security\System\Advanced System Settings -> Environment Variables  -> click on Path then Edit then Add 
+and add environment variable in Path -> Goto Control Panel\System and Security\System\Advanced System Settings -> Environment Variables  -> click on Path-> Edit -> Add 
 to add entry for ->    C:\Program Files\MongoDB\Server\4.4\bin
