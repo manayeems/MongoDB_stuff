@@ -1,6 +1,6 @@
 @echo on
 echo
-start cmd /c mongos --keyFile data/keys/shard_cluster_keyfile   --configdb "rs0/localhost:2011,localhost:2012,localhost:2013" --logpath data/logs/log.mongos0 --port 27200        
+       
 start cmd /c mongod  --keyFile  data/keys/shard_cluster_keyfile  --configsvr --dbpath data/config1  --logpath data/logs/config1.log  --port 2011 --replSet rs0  --bind_ip  127.0.0.1,localhost     
 start cmd /c mongod  --keyFile  data/keys/shard_cluster_keyfile  --configsvr --dbpath data/config2  --logpath data/logs/config2.log  --port 2012 --replSet rs0  --bind_ip  127.0.0.1,localhost     
 start cmd /c mongod  --keyFile  data/keys/shard_cluster_keyfile  --configsvr --dbpath data/config3  --logpath data/logs/config3.log  --port 2013 --replSet rs0  --bind_ip  127.0.0.1,localhost    
