@@ -1,3 +1,4 @@
+Follow these steps sequentially as follows:
 1. Setup Test Replica set using "Replica Set.pdf"  in windows
 2. Work on MongoDB security referring to document "Security.pdf" in the replica set you've created in above step.   
 3. Please follow steps list in "Setup MongoDB shards in windows.pdf" in order to setup four shards in single PC/Laptop
