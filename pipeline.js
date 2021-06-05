@@ -1,4 +1,4 @@
-// load('/usr/local/mongodb/pipeline.js')
+// load('pipeline.js')
 
 var sales_record = [
     {
