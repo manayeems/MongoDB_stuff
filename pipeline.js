@@ -1,0 +1,40 @@
+// load('/usr/local/mongodb/pipeline.js')
+
+var sales_record = [
+    {
+        staff_id:101,
+        name:'Tom',
+        sales:6000,
+        month:1
+    },
+    {
+        staff_id:202,
+        name:'Jerry',
+        sales:5000,
+        month:1
+    },
+    {
+        staff_id:101,
+        name:'Tom',
+        sales:4000,
+        month:2
+    },
+    {
+        staff_id:202,
+        name:'Jerry',
+        sales:7000,
+        month:2
+    },
+    {
+        staff_id:101,
+        name:'Tom',
+        sales:5000,
+        month:3
+    },
+    {
+        staff_id:202,
+        name:'Jerry',
+        sales:9000,
+        month:3
+    }
+]
