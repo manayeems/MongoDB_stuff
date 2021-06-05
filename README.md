@@ -5,5 +5,6 @@ Follow these steps sequentially as follows:
    and use batch file to start all mongod processes of all replica sets in one shot.
 4. Use sample json and js files to create addtional collections.
 5. Practice CRUD operations using two pdf's 1 and 2
-6. Work on creating Indexes and determine its benefits refer to Indexes.pdf and Python Notebook files
-7. Python setup in windows
+6. Practice Aggregation methods and develop pipelines - refer to document "Aggregation.pdf"
+7. Work on creating Indexes and determine its benefits refer to Indexes.pdf and Python Notebook files
+8. Python setup in windows
