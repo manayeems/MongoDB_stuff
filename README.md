@@ -8,4 +8,4 @@ Follow these MongoDB Learning steps sequentially as follows:
 6. Practice Aggregation methods and develop pipelines - refer to document "Aggregation.pdf"
 7. Work on creating Indexes and determine its benefits refer to Indexes.pdf and Python Notebook files
 8. Python setup in windows
-9. Review notes on Write Concern - refer to "Notes on Write Concern.pdf"
+9. Review "Notes on Write Concern.pdf"
