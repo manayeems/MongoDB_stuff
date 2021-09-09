@@ -352,3 +352,111 @@ MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"type" : "Music"}, {"_id"
         "operationTime" : Timestamp(1631221730, 1)
 }
 MongoDB Enterprise shard2rs:PRIMARY>
+
+
+
+
+MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"regularPrice" : 22.99}, {"_id":0,  "regularPrice" : 1, "type" : 1 }).explain("executionStats")
+{
+        "queryPlanner" : {
+                "plannerVersion" : 1,
+                "namespace" : "cars.products",
+                "indexFilterSet" : false,
+                "parsedQuery" : {
+                        "regularPrice" : {
+                                "$eq" : 22.99
+                        }
+                },
+                "winningPlan" : {
+                        "stage" : "PROJECTION_SIMPLE",
+                        "transformBy" : {
+                                "_id" : 0,
+                                "regularPrice" : 1,
+                                "type" : 1
+                        },
+                        "inputStage" : {
+                                "stage" : "COLLSCAN",
+                                "filter" : {
+                                        "regularPrice" : {
+                                                "$eq" : 22.99
+                                        }
+                                },
+                                "direction" : "forward"
+                        }
+                },
+                "rejectedPlans" : [ ]
+        },
+        "executionStats" : {
+                "executionSuccess" : true,
+                "nReturned" : 19820,
+                "executionTimeMillis" : 581,
+                "totalKeysExamined" : 0,
+                "totalDocsExamined" : 516784,
+                "executionStages" : {
+                        "stage" : "PROJECTION_SIMPLE",
+                        "nReturned" : 19820,
+                        "executionTimeMillisEstimate" : 23,
+                        "works" : 516786,
+                        "advanced" : 19820,
+                        "needTime" : 496965,
+                        "needYield" : 0,
+                        "saveState" : 516,
+                        "restoreState" : 516,
+                        "isEOF" : 1,
+                        "transformBy" : {
+                                "_id" : 0,
+                                "regularPrice" : 1,
+                                "type" : 1
+                        },
+                        "inputStage" : {
+                                "stage" : "COLLSCAN",
+                                "filter" : {
+                                        "regularPrice" : {
+                                                "$eq" : 22.99
+                                        }
+                                },
+                                "nReturned" : 19820,
+                                "executionTimeMillisEstimate" : 21,
+                                "works" : 516786,
+                                "advanced" : 19820,
+                                "needTime" : 496965,
+                                "needYield" : 0,
+                                "saveState" : 516,
+                                "restoreState" : 516,
+                                "isEOF" : 1,
+                                "direction" : "forward",
+                                "docsExamined" : 516784
+                        }
+                }
+        },
+        "serverInfo" : {
+                "host" : "DESKTOP-P7RG4I0",
+                "port" : 2005,
+                "version" : "4.4.8",
+                "gitVersion" : "83b8bb8b6b325d8d8d3dfd2ad9f744bdad7d6ca0"
+        },
+        "ok" : 1,
+        "$gleStats" : {
+                "lastOpTime" : {
+                        "ts" : Timestamp(1631221416, 5),
+                        "t" : NumberLong(105)
+                },
+                "electionId" : ObjectId("7fffffff0000000000000069")
+        },
+        "lastCommittedOpTime" : Timestamp(1631222760, 1),
+        "$configServerState" : {
+                "opTime" : {
+                        "ts" : Timestamp(1631222764, 1),
+                        "t" : NumberLong(137)
+                }
+        },
+        "$clusterTime" : {
+                "clusterTime" : Timestamp(1631222764, 1),
+                "signature" : {
+                        "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+                        "keyId" : NumberLong(0)
+                }
+        },
+        "operationTime" : Timestamp(1631222760, 1)
+}
+MongoDB Enterprise shard2rs:PRIMARY>
