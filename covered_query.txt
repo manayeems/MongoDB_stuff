@@ -1,0 +1,354 @@
+MongoDB Enterprise shard2rs:PRIMARY> use cars
+switched to db cars
+
+MongoDB Enterprise shard2rs:PRIMARY> show collections
+products
+restaurants
+MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"type" : "Music","regularPrice" : 22.99}).count()
+17638
+MongoDB Enterprise shard2rs:PRIMARY> db.products.update( {"type" : "Music", "regularPrice" : 22.99}, {$inc : { quantiy: 1}}, {w:3})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+MongoDB Enterprise shard2rs:PRIMARY>
+MongoDB Enterprise shard2rs:PRIMARY>
+MongoDB Enterprise shard2rs:PRIMARY> db.products.update( {"type" : "Music", "regularPrice" : 22.99}, {$inc : { quantiy: 1}}, {w:3, wtimeout: 4500})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+MongoDB Enterprise shard2rs:PRIMARY>
+MongoDB Enterprise shard2rs:PRIMARY>
+MongoDB Enterprise shard2rs:PRIMARY> db.products.update( {"type" : "Music", "regularPrice" : 22.99}, {$inc : { quantiy: 1}}, {w:2})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+
+MongoDB Enterprise shard2rs:PRIMARY> rs.status()
+{
+        "set" : "shard2rs",
+        "date" : ISODate("2021-09-09T19:15:42.573Z"),
+        "myState" : 1,
+        "term" : NumberLong(105),
+        "syncSourceHost" : "",
+        "syncSourceId" : -1,
+        "heartbeatIntervalMillis" : NumberLong(2000),
+        "majorityVoteCount" : 2,
+        "writeMajorityCount" : 2,
+        "votingMembersCount" : 3,
+        "writableVotingMembersCount" : 3,
+        "optimes" : {
+                "lastCommittedOpTime" : {
+                        "ts" : Timestamp(1631214934, 1),
+                        "t" : NumberLong(105)
+                },
+                "lastCommittedWallTime" : ISODate("2021-09-09T19:15:34.038Z"),
+                "readConcernMajorityOpTime" : {
+                        "ts" : Timestamp(1631214934, 1),
+                        "t" : NumberLong(105)
+                },
+                "readConcernMajorityWallTime" : ISODate("2021-09-09T19:15:34.038Z"),
+                "appliedOpTime" : {
+                        "ts" : Timestamp(1631214934, 1),
+                        "t" : NumberLong(105)
+                },
+                "durableOpTime" : {
+                        "ts" : Timestamp(1631214934, 1),
+                        "t" : NumberLong(105)
+                },
+                "lastAppliedWallTime" : ISODate("2021-09-09T19:15:34.038Z"),
+                "lastDurableWallTime" : ISODate("2021-09-09T19:15:34.038Z")
+        },
+        "lastStableRecoveryTimestamp" : Timestamp(1631214889, 2),
+        "electionCandidateMetrics" : {
+                "lastElectionReason" : "electionTimeout",
+                "lastElectionDate" : ISODate("2021-09-09T15:02:55.529Z"),
+                "electionTerm" : NumberLong(105),
+                "lastCommittedOpTimeAtElection" : {
+                        "ts" : Timestamp(0, 0),
+                        "t" : NumberLong(-1)
+                },
+                "lastSeenOpTimeAtElection" : {
+                        "ts" : Timestamp(1631057836, 1),
+                        "t" : NumberLong(103)
+                },
+                "numVotesNeeded" : 2,
+                "priorityAtElection" : 1,
+                "electionTimeoutMillis" : NumberLong(10000),
+                "numCatchUpOps" : NumberLong(0),
+                "newTermStartDate" : ISODate("2021-09-09T15:02:55.872Z"),
+                "wMajorityWriteAvailabilityDate" : ISODate("2021-09-09T15:02:56.461Z")
+        },
+        "members" : [
+                {
+                        "_id" : 0,
+                        "name" : "localhost:2004",
+                        "health" : 1,
+                        "state" : 2,
+                        "stateStr" : "SECONDARY",
+                        "uptime" : 15177,
+                        "optime" : {
+                                "ts" : Timestamp(1631214934, 1),
+                                "t" : NumberLong(105)
+                        },
+                        "optimeDurable" : {
+                                "ts" : Timestamp(1631214934, 1),
+                                "t" : NumberLong(105)
+                        },
+                        "optimeDate" : ISODate("2021-09-09T19:15:34Z"),
+                        "optimeDurableDate" : ISODate("2021-09-09T19:15:34Z"),
+                        "lastHeartbeat" : ISODate("2021-09-09T19:15:42.052Z"),
+                        "lastHeartbeatRecv" : ISODate("2021-09-09T19:15:40.667Z"),
+                        "pingMs" : NumberLong(0),
+                        "lastHeartbeatMessage" : "",
+                        "syncSourceHost" : "localhost:2005",
+                        "syncSourceId" : 1,
+                        "infoMessage" : "",
+                        "configVersion" : 2,
+                        "configTerm" : 105
+                },
+                {
+                        "_id" : 1,
+                        "name" : "localhost:2005",
+                        "health" : 1,
+                        "state" : 1,
+                        "stateStr" : "PRIMARY",
+                        "uptime" : 15195,
+                        "optime" : {
+                                "ts" : Timestamp(1631214934, 1),
+                                "t" : NumberLong(105)
+                        },
+                        "optimeDate" : ISODate("2021-09-09T19:15:34Z"),
+                        "syncSourceHost" : "",
+                        "syncSourceId" : -1,
+                        "infoMessage" : "",
+                        "electionTime" : Timestamp(1631199775, 1),
+                        "electionDate" : ISODate("2021-09-09T15:02:55Z"),
+                        "configVersion" : 2,
+                        "configTerm" : 105,
+                        "self" : true,
+                        "lastHeartbeatMessage" : ""
+                },
+                {
+                        "_id" : 2,
+                        "name" : "localhost:2006",
+                        "health" : 1,
+                        "state" : 2,
+                        "stateStr" : "SECONDARY",
+                        "uptime" : 15176,
+                        "optime" : {
+                                "ts" : Timestamp(1631214934, 1),
+                                "t" : NumberLong(105)
+                        },
+                        "optimeDurable" : {
+                                "ts" : Timestamp(1631214934, 1),
+                                "t" : NumberLong(105)
+                        },
+                        "optimeDate" : ISODate("2021-09-09T19:15:34Z"),
+                        "optimeDurableDate" : ISODate("2021-09-09T19:15:34Z"),
+                        "lastHeartbeat" : ISODate("2021-09-09T19:15:42.052Z"),
+                        "lastHeartbeatRecv" : ISODate("2021-09-09T19:15:40.697Z"),
+                        "pingMs" : NumberLong(0),
+                        "lastHeartbeatMessage" : "",
+                        "syncSourceHost" : "localhost:2005",
+                        "syncSourceId" : 1,
+                        "infoMessage" : "",
+                        "configVersion" : 2,
+                        "configTerm" : 105
+                }
+        ],
+        "ok" : 1,
+        "$gleStats" : {
+                "lastOpTime" : {
+                        "ts" : Timestamp(1631214934, 1),
+                        "t" : NumberLong(105)
+                },
+                "electionId" : ObjectId("7fffffff0000000000000069")
+        },
+        "lastCommittedOpTime" : Timestamp(1631214934, 1),
+        "$configServerState" : {
+                "opTime" : {
+                        "ts" : Timestamp(1631214939, 1),
+                        "t" : NumberLong(137)
+                }
+        },
+        "$clusterTime" : {
+                "clusterTime" : Timestamp(1631214939, 1),
+                "signature" : {
+                        "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+                        "keyId" : NumberLong(0)
+                }
+        },
+        "operationTime" : Timestamp(1631214934, 1)
+}
+
+
+MongoDB Enterprise shard2rs:PRIMARY> db.products.createIndex( { type : 1, regularPrice : 1} )
+{
+        "createdCollectionAutomatically" : false,
+        "numIndexesBefore" : 1,
+        "numIndexesAfter" : 2,
+        "commitQuorum" : "votingMembers",
+        "ok" : 1,
+        "$gleStats" : {
+                "lastOpTime" : {
+                        "ts" : Timestamp(1631221416, 5),
+                        "t" : NumberLong(105)
+                },
+                "electionId" : ObjectId("7fffffff0000000000000069")
+        },
+        "lastCommittedOpTime" : Timestamp(1631221416, 3),
+        "$configServerState" : {
+                "opTime" : {
+                        "ts" : Timestamp(1631221413, 1),
+                        "t" : NumberLong(137)
+                }
+        },
+        "$clusterTime" : {
+                "clusterTime" : Timestamp(1631221416, 5),
+                "signature" : {
+                        "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+                        "keyId" : NumberLong(0)
+                }
+        },
+        "operationTime" : Timestamp(1631221416, 5)
+}
+MongoDB Enterprise shard2rs:PRIMARY>
+
+
+MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"type" : "Music"}, {"_id":0,  "regularPrice" : 1, "type" : 1 }).explain("executionStats")
+{
+        "queryPlanner" : {
+                "plannerVersion" : 1,
+                "namespace" : "cars.products",
+                "indexFilterSet" : false,
+                "parsedQuery" : {
+                        "type" : {
+                                "$eq" : "Music"
+                        }
+                },
+                "winningPlan" : {
+                        "stage" : "PROJECTION_COVERED",
+                        "transformBy" : {
+                                "_id" : 0,
+                                "regularPrice" : 1,
+                                "type" : 1
+                        },
+                        "inputStage" : {
+                                "stage" : "IXSCAN",
+                                "keyPattern" : {
+                                        "type" : 1,
+                                        "regularPrice" : 1
+                                },
+                                "indexName" : "type_1_regularPrice_1",
+                                "isMultiKey" : false,
+                                "multiKeyPaths" : {
+                                        "type" : [ ],
+                                        "regularPrice" : [ ]
+                                },
+                                "isUnique" : false,
+                                "isSparse" : false,
+                                "isPartial" : false,
+                                "indexVersion" : 2,
+                                "direction" : "forward",
+                                "indexBounds" : {
+                                        "type" : [
+                                                "[\"Music\", \"Music\"]"
+                                        ],
+                                        "regularPrice" : [
+                                                "[MinKey, MaxKey]"
+                                        ]
+                                }
+                        }
+                },
+                "rejectedPlans" : [ ]
+        },
+        "executionStats" : {
+                "executionSuccess" : true,
+                "nReturned" : 424117,
+                "executionTimeMillis" : 929,
+                "totalKeysExamined" : 424117,
+                "totalDocsExamined" : 0,
+                "executionStages" : {
+                        "stage" : "PROJECTION_COVERED",
+                        "nReturned" : 424117,
+                        "executionTimeMillisEstimate" : 102,
+                        "works" : 424118,
+                        "advanced" : 424117,
+                        "needTime" : 0,
+                        "needYield" : 0,
+                        "saveState" : 424,
+                        "restoreState" : 424,
+                        "isEOF" : 1,
+                        "transformBy" : {
+                                "_id" : 0,
+                                "regularPrice" : 1,
+                                "type" : 1
+                        },
+                        "inputStage" : {
+                                "stage" : "IXSCAN",
+                                "nReturned" : 424117,
+                                "executionTimeMillisEstimate" : 80,
+                                "works" : 424118,
+                                "advanced" : 424117,
+                                "needTime" : 0,
+                                "needYield" : 0,
+                                "saveState" : 424,
+                                "restoreState" : 424,
+                                "isEOF" : 1,
+                                "keyPattern" : {
+                                        "type" : 1,
+                                        "regularPrice" : 1
+                                },
+                                "indexName" : "type_1_regularPrice_1",
+                                "isMultiKey" : false,
+                                "multiKeyPaths" : {
+                                        "type" : [ ],
+                                        "regularPrice" : [ ]
+                                },
+                                "isUnique" : false,
+                                "isSparse" : false,
+                                "isPartial" : false,
+                                "indexVersion" : 2,
+                                "direction" : "forward",
+                                "indexBounds" : {
+                                        "type" : [
+                                                "[\"Music\", \"Music\"]"
+                                        ],
+                                        "regularPrice" : [
+                                                "[MinKey, MaxKey]"
+                                        ]
+                                },
+                                "keysExamined" : 424117,
+                                "seeks" : 1,
+                                "dupsTested" : 0,
+                                "dupsDropped" : 0
+                        }
+                }
+        },
+        "serverInfo" : {
+                "host" : "DESKTOP-P7RG4I0",
+                "port" : 2005,
+                "version" : "4.4.8",
+                "gitVersion" : "83b8bb8b6b325d8d8d3dfd2ad9f744bdad7d6ca0"
+        },
+        "ok" : 1,
+        "$gleStats" : {
+                "lastOpTime" : {
+                        "ts" : Timestamp(1631221416, 5),
+                        "t" : NumberLong(105)
+                },
+                "electionId" : ObjectId("7fffffff0000000000000069")
+        },
+        "lastCommittedOpTime" : Timestamp(1631221730, 1),
+        "$configServerState" : {
+                "opTime" : {
+                        "ts" : Timestamp(1631221735, 1),
+                        "t" : NumberLong(137)
+                }
+        },
+        "$clusterTime" : {
+                "clusterTime" : Timestamp(1631221735, 1),
+                "signature" : {
+                        "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+                        "keyId" : NumberLong(0)
+                }
+        },
+        "operationTime" : Timestamp(1631221730, 1)
+}
+MongoDB Enterprise shard2rs:PRIMARY>
