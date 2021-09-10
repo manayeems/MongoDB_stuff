@@ -211,7 +211,7 @@ MongoDB Enterprise shard2rs:PRIMARY> db.products.createIndex( { type : 1, regula
 MongoDB Enterprise shard2rs:PRIMARY>
 
 
-MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"type" : "Music"}, {"_id":0,  "regularPrice" : 1, "type" : 1 }).explain("executionStats")
+MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"regularPrice" : 22.99}, {"_id":0,  "regularPrice" : 1, "type" : 1 }).explain("executionStats")
 {
         "queryPlanner" : {
                 "plannerVersion" : 1,
@@ -351,12 +351,9 @@ MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"type" : "Music"}, {"_id"
         },
         "operationTime" : Timestamp(1631221730, 1)
 }
-MongoDB Enterprise shard2rs:PRIMARY>
 
 
-
-
-MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"regularPrice" : 22.99}, {"_id":0,  "regularPrice" : 1, "type" : 1 }).explain("executionStats")
+MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"regularPrice" : 22.99}, {"_id":0,  "regularPrice" : 1, "type" : 1 }).hint({ type : 1, regularPrice : 1} ).explain("executionStats")
 {
         "queryPlanner" : {
                 "plannerVersion" : 1,
@@ -375,13 +372,38 @@ MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"regularPrice" : 22.99}, 
                                 "type" : 1
                         },
                         "inputStage" : {
-                                "stage" : "COLLSCAN",
+                                "stage" : "FETCH",
                                 "filter" : {
                                         "regularPrice" : {
                                                 "$eq" : 22.99
                                         }
                                 },
-                                "direction" : "forward"
+                                "inputStage" : {
+                                        "stage" : "IXSCAN",
+                                        "keyPattern" : {
+                                                "type" : 1,
+                                                "regularPrice" : 1
+                                        },
+                                        "indexName" : "type_1_regularPrice_1",
+                                        "isMultiKey" : false,
+                                        "multiKeyPaths" : {
+                                                "type" : [ ],
+                                                "regularPrice" : [ ]
+                                        },
+                                        "isUnique" : false,
+                                        "isSparse" : false,
+                                        "isPartial" : false,
+                                        "indexVersion" : 2,
+                                        "direction" : "forward",
+                                        "indexBounds" : {
+                                                "type" : [
+                                                        "[MinKey, MaxKey]"
+                                                ],
+                                                "regularPrice" : [
+                                                        "[MinKey, MaxKey]"
+                                                ]
+                                        }
+                                }
                         }
                 },
                 "rejectedPlans" : [ ]
@@ -389,16 +411,16 @@ MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"regularPrice" : 22.99}, 
         "executionStats" : {
                 "executionSuccess" : true,
                 "nReturned" : 19820,
-                "executionTimeMillis" : 581,
-                "totalKeysExamined" : 0,
+                "executionTimeMillis" : 2199,
+                "totalKeysExamined" : 516784,
                 "totalDocsExamined" : 516784,
                 "executionStages" : {
                         "stage" : "PROJECTION_SIMPLE",
                         "nReturned" : 19820,
-                        "executionTimeMillisEstimate" : 23,
-                        "works" : 516786,
+                        "executionTimeMillisEstimate" : 555,
+                        "works" : 516785,
                         "advanced" : 19820,
-                        "needTime" : 496965,
+                        "needTime" : 496964,
                         "needYield" : 0,
                         "saveState" : 516,
                         "restoreState" : 516,
@@ -409,54 +431,89 @@ MongoDB Enterprise shard2rs:PRIMARY> db.products.find({"regularPrice" : 22.99}, 
                                 "type" : 1
                         },
                         "inputStage" : {
-                                "stage" : "COLLSCAN",
+                                "stage" : "FETCH",
                                 "filter" : {
                                         "regularPrice" : {
                                                 "$eq" : 22.99
                                         }
                                 },
                                 "nReturned" : 19820,
-                                "executionTimeMillisEstimate" : 21,
-                                "works" : 516786,
+                                "executionTimeMillisEstimate" : 543,
+                                "works" : 516785,
                                 "advanced" : 19820,
-                                "needTime" : 496965,
+                                "needTime" : 496964,
                                 "needYield" : 0,
                                 "saveState" : 516,
                                 "restoreState" : 516,
                                 "isEOF" : 1,
-                                "direction" : "forward",
-                                "docsExamined" : 516784
+                                "docsExamined" : 516784,
+                                "alreadyHasObj" : 0,
+                                "inputStage" : {
+                                        "stage" : "IXSCAN",
+                                        "nReturned" : 516784,
+                                        "executionTimeMillisEstimate" : 203,
+                                        "works" : 516785,
+                                        "advanced" : 516784,
+                                        "needTime" : 0,
+                                        "needYield" : 0,
+                                        "saveState" : 516,
+                                        "restoreState" : 516,
+                                        "isEOF" : 1,
+                                        "keyPattern" : {
+                                                "type" : 1,
+                                                "regularPrice" : 1
+                                        },
+                                        "indexName" : "type_1_regularPrice_1",
+                                        "isMultiKey" : false,
+                                        "multiKeyPaths" : {
+                                                "type" : [ ],
+                                                "regularPrice" : [ ]
+                                        },
+                                        "isUnique" : false,
+                                        "isSparse" : false,
+                                        "isPartial" : false,
+                                        "indexVersion" : 2,
+                                        "direction" : "forward",
+                                        "indexBounds" : {
+                                                "type" : [
+                                                        "[MinKey, MaxKey]"
+                                                ],
+                                                "regularPrice" : [
+                                                        "[MinKey, MaxKey]"
+                                                ]
+                                        },
+                                        "keysExamined" : 516784,
+                                        "seeks" : 1,
+                                        "dupsTested" : 0,
+                                        "dupsDropped" : 0
+                                }
                         }
                 }
         },
         "serverInfo" : {
                 "host" : "DESKTOP-P7RG4I0",
-                "port" : 2005,
+                "port" : 2004,
                 "version" : "4.4.8",
                 "gitVersion" : "83b8bb8b6b325d8d8d3dfd2ad9f744bdad7d6ca0"
         },
         "ok" : 1,
         "$gleStats" : {
-                "lastOpTime" : {
-                        "ts" : Timestamp(1631221416, 5),
-                        "t" : NumberLong(105)
-                },
-                "electionId" : ObjectId("7fffffff0000000000000069")
+                "lastOpTime" : Timestamp(0, 0),
+                "electionId" : ObjectId("7fffffff000000000000006b")
         },
-        "lastCommittedOpTime" : Timestamp(1631222760, 1),
+        "lastCommittedOpTime" : Timestamp(1631283802, 1),
         "$configServerState" : {
                 "opTime" : {
-                        "ts" : Timestamp(1631222764, 1),
-                        "t" : NumberLong(137)
+                        "ts" : Timestamp(1631283800, 2),
+                        "t" : NumberLong(139)
                 }
         },
         "$clusterTime" : {
-                "clusterTime" : Timestamp(1631222764, 1),
+                "clusterTime" : Timestamp(1631283802, 1),
                 "signature" : {
                         "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
                         "keyId" : NumberLong(0)
                 }
         },
-        "operationTime" : Timestamp(1631222760, 1)
+        "operationTime" : Timestamp(1631283802, 1)
 }
-MongoDB Enterprise shard2rs:PRIMARY>
