@@ -1,3 +1,11 @@
+Move all or selected AdventureWorks objects (tables, views, functions, procedures, etc.) from their existing schemas (e.g., Person, Sales, Production, etc.) into the dbo schema in SQL Server 2019.
+
+
+Moving objects between schemas can break code, synonyms, permissions, triggers, replication, dependencies, and applications that reference schema.object.
+
+AdventureWorks uses schemas for logical organization, so flattening them should be done only for training/testing.
+
+Always test in a non-production database.
 Below is a single script that safely moves all AdventureWorks objects (tables, views, functions, procedures) from their original schemas (Person, Production, Sales, HumanResources, Purchasing, etc.) into the dbo schema in dependency-friendly order.
 
 NOTE:
