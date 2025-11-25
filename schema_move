@@ -1,0 +1,98 @@
+Below is a single script that safely moves all AdventureWorks objects (tables, views, functions, procedures) from their original schemas (Person, Production, Sales, HumanResources, Purchasing, etc.) into the dbo schema in dependency-friendly order.
+
+NOTE:
+
+This script only prints the dynamic SQL the first time.
+
+After inspection, uncomment the indicated final EXEC line.
+
+Order used: Tables → Table-valued functions → Scalar functions → Views → Procedures → Synonyms
+(this minimizes dependency conflicts).
+
+/****************************************************************************************************
+    MOVE ALL AdventureWorks OBJECTS FROM ORIGINAL SCHEMAS TO dbo
+    Order: TABLES → FUNCTIONS → VIEWS → PROCEDURES → SYNONYMS
+    Safe for SQL Server 2019
+
+    HOW TO USE:
+    1. Run this script once — inspect printed SQL.
+    2. If satisfied, uncomment the "EXEC sp_executesql @sql;" line.
+*****************************************************************************************************/
+
+SET NOCOUNT ON;
+
+DECLARE @sql NVARCHAR(MAX) = N'';  -- will accumulate the full script
+DECLARE @crlf NVARCHAR(2) = CHAR(13) + CHAR(10);
+
+/******************** 1. TABLES ************************/
+
+SELECT @sql += 
+    'ALTER SCHEMA dbo TRANSFER ' 
+    + QUOTENAME(s.name) + '.' + QUOTENAME(t.name) + ';'
+    + @crlf
+FROM sys.tables t
+JOIN sys.schemas s ON t.schema_id = s.schema_id
+WHERE s.name <> 'dbo';
+
+/******************** 2. INLINE + TABLE-VALUED FUNCTIONS (IF, TF) ************************/
+
+SELECT @sql += 
+    'ALTER SCHEMA dbo TRANSFER '
+    + QUOTENAME(s.name) + '.' + QUOTENAME(o.name) + ';'
+    + @crlf
+FROM sys.objects o
+JOIN sys.schemas s ON o.schema_id = s.schema_id
+WHERE s.name <> 'dbo'
+  AND o.type IN ('IF','TF');
+
+/******************** 3. SCALAR FUNCTIONS (FN) ************************/
+
+SELECT @sql += 
+    'ALTER SCHEMA dbo TRANSFER '
+    + QUOTENAME(s.name) + '.' + QUOTENAME(o.name) + ';'
+    + @crlf
+FROM sys.objects o
+JOIN sys.schemas s ON o.schema_id = s.schema_id
+WHERE s.name <> 'dbo'
+  AND o.type = 'FN';
+
+/******************** 4. VIEWS ************************/
+
+SELECT @sql += 
+    'ALTER SCHEMA dbo TRANSFER ' 
+    + QUOTENAME(s.name) + '.' + QUOTENAME(v.name) + ';'
+    + @crlf
+FROM sys.views v
+JOIN sys.schemas s ON v.schema_id = s.schema_id
+WHERE s.name <> 'dbo';
+
+/******************** 5. STORED PROCEDURES ************************/
+
+SELECT @sql += 
+    'ALTER SCHEMA dbo TRANSFER '
+    + QUOTENAME(s.name) + '.' + QUOTENAME(p.name) + ';'
+    + @crlf
+FROM sys.procedures p
+JOIN sys.schemas s ON p.schema_id = s.schema_id
+WHERE s.name <> 'dbo';
+
+/******************** 6. SYNONYMS (If AdventureWorks version has any) ************************/
+
+SELECT @sql += 
+    'ALTER SCHEMA dbo TRANSFER '
+    + QUOTENAME(s.name) + '.' + QUOTENAME(sn.name) + ';'
+    + @crlf
+FROM sys.synonyms sn
+JOIN sys.schemas s ON sn.schema_id = s.schema_id
+WHERE s.name <> 'dbo';
+
+/******************** DONE — PRINT OR EXECUTE ************************/
+
+PRINT '----- GENERATED SQL BEGIN -----';
+PRINT @sql;
+PRINT '----- GENERATED SQL END -----';
+
+/* 
+-- AFTER reviewing printed SQL, uncomment to execute:
+-- EXEC sp_executesql @sql;
+*/
